@@ -10,7 +10,7 @@ class Carrito extends Contenedor{
 
         try{
 
-            let carrito = this.traerContenido();
+            let carrito = this.traerContenido();            
             let fecha = new Date();
             let anio = fecha.getFullYear();
             let mes = fecha.getMonth();
@@ -19,14 +19,21 @@ class Carrito extends Contenedor{
             let minutos = fecha.getMinutes();
             let segundos = fecha.getSeconds();
             let tiempo = `${hora}:${minutos}:${segundos} ${dia}/${mes}/${anio}`;
+            let id;
+            if(carrito.length === 0){
+                id = 1;
+            }else if(carrito[0].id > 1){
+                id = 1;
+            }else if(carrito[1].id >1){
+                id = carrito[carrito.length-1].id +1;
+            }
             let carro = {
-                id:this.id,
+                id,
                 timestamp: tiempo,
                 productos:[]
             };
             carrito.push(carro);
             this.guardarArchivo(carrito);
-            this.id++;
             return carro.id;
         }catch(err){
             return err

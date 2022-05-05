@@ -22,9 +22,10 @@ carritoRouter.delete("/:id", (req,res)=>{
 carritoRouter.get("/:id/productos", (req,res)=>{
     let id = req.params.id;
     let carrito = carritoContenedor.traerItem(id);
-    if(carrito != "No existe"){
+    if(carrito){
         let productos = carrito.productos;
-        res.json({carrito:productos});
+        let idCarrito = carritoContenedor.id;
+        res.json({carrito:productos, id: idCarrito});
     }else{
         res.json({result: "No se encuentra el carrito"});
     }

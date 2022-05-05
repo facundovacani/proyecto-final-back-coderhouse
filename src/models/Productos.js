@@ -8,12 +8,12 @@ class Productos extends Contenedor{
     
     guardar(nombre,descripcion,foto, precio,stock){
         let productos = this.traerContenido();
-        let codigo = Math.random()*12312;
+        let codigo = Math.round(Math.random()*123524);
         let fecha = new Date();
         let anio = fecha.getFullYear();
         let mes = fecha.getMonth();
         let dia = fecha.getDate();
-        let hora = fecha.getHours();
+        let hora = fecha.getHours();        
         let minutos = fecha.getMinutes();
         let segundos = fecha.getSeconds();
         let tiempo = `${hora}:${minutos}:${segundos} ${dia}/${mes}/${anio}`;

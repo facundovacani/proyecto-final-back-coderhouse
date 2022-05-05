@@ -11,10 +11,10 @@ productosRouter.get("/:id?", (req,res)=>{
     let id = req.params.id;
     if(id){
         let producto =  productosContenedor.traerItem(id);
-        res.json({producto});   
+        res.json({producto, usuario});   
     }else{
         let productos = productosContenedor.traerContenido();
-        res.json({productos});
+        res.json({productos, usuario});
     }
 });
 
@@ -22,11 +22,11 @@ productosRouter.get("/:id?", (req,res)=>{
 productosRouter.post("/", (req,res)=>{
     if(usuario.admin){
         let producto = req.body;
-        if(producto.nombre && producto.descripcion && producto.foto&& producto.precio&& producto.stock){
+        if(producto.nombre && producto.descripcion && producto.foto && producto.precio && producto.stock){
             producto = productosContenedor.guardar(producto.nombre , producto.descripcion , producto.foto, producto.precio, producto.stock);
             res.json({result: "Producto guardado", producto:producto});
         }else{
-            res.json({result: "No se guardó al jugador"});
+            res.json({result: "No se guardó el producto"});
         }        
     }else{
         res.json({error: -1, descripcion:`ruta '${req.url}' método '${req.method}' no autorizado`})

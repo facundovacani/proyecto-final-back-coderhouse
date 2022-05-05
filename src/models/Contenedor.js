@@ -37,13 +37,13 @@ class Contenedor{
             if(items.length > 0){
                 let elemento = items.find(i => i.id == id);
                 if(elemento){
-                    item = elemento;
+                    item = elemento;                    
                 }else{
-                    item = "No existe";
+                    item = false;
                 }
             }
-    
             return item;
+    
 
         }catch(err){
             return err
@@ -72,28 +72,3 @@ class Contenedor{
 
 module.exports = {Contenedor};
 
-/*
-
-async deleteById(id){
-        try{
-            let data = await fs.promises.readFile(this._archivo, "utf-8");
-            let array = JSON.parse(data).productos;
-            let existe = array.some((e) => e.id == id )
-            if(existe){
-                let item = array.findIndex(i => i.id == id);
-                console.log(`Se eliminó el producto ${array[item].title} con id ${array[item].id}`)
-                array.splice(item, 1);
-                await fs.promises.writeFile(this._archivo , JSON.stringify({productos: array}));
-
-
-            }else{
-                console.log(`No existe el id ${id} en la lista de productos`)
-            }
-
-        }
-        catch(err){
-            console.warn(err)
-        }
-
-    }
-*/
