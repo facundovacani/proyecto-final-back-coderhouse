@@ -10,5 +10,5 @@ const productoShema = new mongoose.Schema({
     stock: {type: Number, required: true}
 })
 
-const productModel = mongoose.model("productos", productoShema);
-module.exports = {productModel};
+ 
+module.exports = mongoose.model("productos", productoShema);

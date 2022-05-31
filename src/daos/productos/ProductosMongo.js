@@ -1,17 +1,39 @@
 const {ContenedorMongo} = require("../../contenedores/ContenedorMongoDb");
-const {productModel} = require("../../models/productosSchema");
+const productModel = require("../../models/productosSchema");
 
 class ProductosMongo extends ContenedorMongo{
     constructor() {
-        super(productModel);
-        this.id = 1;
-        this.verId()
-    }
+        super();
 
-    async verId(){
-        let productos = await this.traerContenido();
-        if(productos.length > 0){
-            this._id = parseInt((parseInt(productos[productos.length - 1].id) + 1));
+    }
+    async traerContenido(){
+        let productos = await productModel.find({});
+        let todo = productos.map(prod => ({
+                id: prod.id,
+                timestamp: prod.timestamp,
+                nombre: prod.nombre,
+                descripcion: prod.descripcion,
+                codigo: prod.codigo,
+                foto: prod.foto,
+                precio: prod.precio,
+                stock:prod.stock
+            }))
+        return todo;
+    }
+    async borrarItem(id){
+        try{
+            await productModel.deleteOne({_id:id})
+            console.log(`Usuario eliminado`)
+        }catch(err){
+            console.log(err)
+        }
+    }
+    async traerItem(id){
+        try{
+            let producto = await productModel.findOne({_id:id});
+            return producto;
+        }catch(err){
+            console.log(err)
         }
     }
     
@@ -26,26 +48,25 @@ class ProductosMongo extends ContenedorMongo{
         let segundos = fecha.getSeconds();
         let tiempo = `${hora}:${minutos}:${segundos} ${dia}/${mes}/${anio}`;
         let producto = {   
-            _id: this._id,    
             timestamp: tiempo,
             nombre,
             descripcion,
             codigo,
             foto,
             precio,
-            stock
+            stock,
         }
-        let documento = await this.coleccion.insertOne(producto);
+        let documento = new productModel(producto);
+        let productoGuardado = await documento.save();
         this._id++;
-        return documento;
+        return productoGuardado;
     }
 
     
     
     async actualizar(id,atributo, valor){
         try{
-            let doc = this.coleccion.doc(`${id}`);
-            let item = await doc.update({[atributo]: valor});    
+            let item = await productModel.updateOne({_id: id}, {$set:{[atributo]:valor}});
             return item;        
         }catch(err){
             return err

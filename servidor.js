@@ -1,8 +1,9 @@
 const express = require("express");
 const app = express();
-const PORT = 8080;
+const { MONGO_URL, PORT } = require("./src/config/config");
 const productosRouter = require("./src/routes/productosRoutes"); 
 const carritoRouter = require("./src/routes/carritoRouter");
+const mongoose = require('mongoose');
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true})); 
@@ -10,6 +11,10 @@ app.use("/api/productos", productosRouter);
 app.use(express.static("public"));
 app.use("/api/carrito", carritoRouter);
 
+mongoose.connect(MONGO_URL, {
+    useNewUrlParser: true, 
+    useUnifiedTopology: true
+}, () => console.log("Mongo Atlas conectado"))
 app.get("/", (req,res)=>{
     res.sendFile(__dirname +"public/index.html");
 })

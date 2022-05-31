@@ -8,9 +8,9 @@ const { ProductosMongo } = require("../daos/productos/ProductosMongo");
 
 // const productosContenedor = new Productos("./src/data/productos.json"); //hay que poner la ruta como si estuvieramos en el servidor.js
 
-const productosContenedor = new ProductosFirebase();
+// const productosContenedor = new ProductosFirebase();
 
-// const productosContenedor = new ProductosMongo();
+const productosContenedor = new ProductosMongo();
 
 const usuario = {
     admin : true

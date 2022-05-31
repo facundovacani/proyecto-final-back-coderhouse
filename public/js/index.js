@@ -187,7 +187,7 @@ function cambioFetch(url, id = false, idC = 1) {
                         </form>  
                         <h2>Editar Productos</h2>
                         <form id="editarUnProducto">
-                            <input type="number" placeholder="Id del Producto" name="id" id="idProducto" required/>           
+                            <input type="text" placeholder="Id del Producto" name="id" id="idProducto" required/>           
                             <input type="text" placeholder="Nombre" name="nombre" id="nombreEdit" />           
                             <input type="text" placeholder="Descripción" name="descripcion" id="descripcionEdit" />
                             <input type="url" placeholder="Foto" name="foto" id="fotoEdit" />
@@ -253,7 +253,7 @@ function cambioFetch(url, id = false, idC = 1) {
                                 "Content-Type": "application/json"
                             },
                             body: JSON.stringify({
-                                id:Number.parseInt($idEdited),
+                                id:$idEdited,
                                 nombre: $nombreEdit,
                                 descripcion: $descripcionEdit,
                                 foto: $fotoEdit,

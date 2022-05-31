@@ -10,11 +10,11 @@ const { CarritoMongo } = require("../daos/carritos/CarritoMongo");
 // const carritoContenedor = new Carrito("./src/data/carritos.json");
 // const productosContenedor = new Productos("./src/data/productos.json");
 
-const carritoContenedor = new CarritoFirebase();
-const productosContenedor = new ProductosFirebase();
+// const carritoContenedor = new CarritoFirebase();
+// const productosContenedor = new ProductosFirebase();
 
-// const productosContenedor = new ProductosMongo();
-// const carritoContenedor = new CarritoMongo();
+const productosContenedor = new ProductosMongo();
+const carritoContenedor = new CarritoMongo();
 
 carritoRouter.post("/",(req,res)=>{
     let carro = carritoContenedor.guardar();
@@ -30,9 +30,9 @@ carritoRouter.delete("/:id", (req,res)=>{
 
 });
 
-carritoRouter.get("/:id/productos", (req,res)=>{
+carritoRouter.get("/:id/productos", async (req,res)=>{
     let id = req.params.id;
-    let carrito = carritoContenedor.traerItem(id);
+    let carrito = await carritoContenedor.traerItem(id);
     if(carrito){
         let productos = carrito.productos;
         let idCarrito = carritoContenedor.id;
