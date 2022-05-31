@@ -1,16 +1,27 @@
 const express = require("express");
-const res = require("express/lib/response");
 const {Router} = express;
 const carritoRouter = Router();
-const { Carrito } = require("../models/Carrito");
-const {Productos} = require("../models/Productos");
-const carritoContenedor = new Carrito("./src/data/carritos.json");
-const productosContenedor = new Productos("./src/data/productos.json");
+const { Carrito } = require("../daos/carritos/Carrito");
+const { Productos } = require("../daos/productos/Productos");
+const { CarritoFirebase } = require("../daos/carritos/CarritoFirebase")
+const { ProductosFirebase } = require("../daos/productos/ProductosFirebase");
+const { ProductosMongo } = require("../daos/productos/ProductosMongo");
+const { CarritoMongo } = require("../daos/carritos/CarritoMongo");
+// const carritoContenedor = new Carrito("./src/data/carritos.json");
+// const productosContenedor = new Productos("./src/data/productos.json");
+
+const carritoContenedor = new CarritoFirebase();
+const productosContenedor = new ProductosFirebase();
+
+// const productosContenedor = new ProductosMongo();
+// const carritoContenedor = new CarritoMongo();
 
 carritoRouter.post("/",(req,res)=>{
     let carro = carritoContenedor.guardar();
     res.json({carro});
 })
+
+
 
 carritoRouter.delete("/:id", (req,res)=>{
     let id = req.params.id;

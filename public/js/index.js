@@ -3,8 +3,8 @@ const $botonCarrito = document.querySelector("#irCarrito");
 let numidCarrito = 1; 
 
 function cambioFetch(url, id = false, idC = 1) {
-    console.log(idC)
-    console.log(numidCarrito);
+    // console.log(idC)
+    // console.log(numidCarrito);
     if (url == "/api/carrito") {
         if (idC) {
             fetch(`http://localhost:8080${url}/${idC}/productos`).then(res => res.json()).then((data) => {

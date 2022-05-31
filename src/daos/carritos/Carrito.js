@@ -1,4 +1,4 @@
-const {Contenedor} = require("./Contenedor");
+const {Contenedor} = require("../../contenedores/Contenedor");
 class Carrito extends Contenedor{
     constructor(archivo){
         super(archivo);

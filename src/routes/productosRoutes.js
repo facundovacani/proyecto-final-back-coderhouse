@@ -1,19 +1,27 @@
 const express = require("express");
 const {Router} = express;
 const productosRouter = Router();
-const {Productos} = require("../models/Productos");
+const {Productos} = require("../daos/productos/Productos");
+const { ProductosFirebase } = require("../daos/productos/ProductosFirebase");
+const { ProductosMongo } = require("../daos/productos/ProductosMongo");
 
-const productosContenedor = new Productos("./src/data/productos.json"); //hay que poner la ruta como si estuvieramos en el servidor.js
+
+// const productosContenedor = new Productos("./src/data/productos.json"); //hay que poner la ruta como si estuvieramos en el servidor.js
+
+const productosContenedor = new ProductosFirebase();
+
+// const productosContenedor = new ProductosMongo();
+
 const usuario = {
     admin : true
 };
-productosRouter.get("/:id?", (req,res)=>{
+productosRouter.get("/:id?", async (req,res)=>{
     let id = req.params.id;
     if(id){
-        let producto =  productosContenedor.traerItem(id);
+        let producto =  await productosContenedor.traerItem(id);
         res.json({producto, usuario});   
     }else{
-        let productos = productosContenedor.traerContenido();
+        let productos = await productosContenedor.traerContenido();
         res.json({productos, usuario});
     }
 });
