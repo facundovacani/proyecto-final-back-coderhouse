@@ -23,7 +23,6 @@ class ProductosMongo extends ContenedorMongo{
     async borrarItem(id){
         try{
             await productModel.deleteOne({_id:id})
-            console.log(`Usuario eliminado`)
         }catch(err){
             console.log(err)
         }

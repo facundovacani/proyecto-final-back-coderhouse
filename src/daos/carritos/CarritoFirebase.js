@@ -1,4 +1,5 @@
 const {ContenedorFirebase} = require("../../contenedores/ContenedorFirebase");
+const { db } = require("../../models/carritoSchema");
 
 class CarritoFirebase extends ContenedorFirebase{
     constructor() {
@@ -9,9 +10,16 @@ class CarritoFirebase extends ContenedorFirebase{
 
     async verId(){
         let carritos = await this.traerContenido();
-        if(carritos.length > 0){
-            this.id = (parseInt(carritos[carritos.length - 1].id) + 1);
+        
+        if(carritos.length >= 1){
+            if(carritos[0].id == 1){
+
+                this.id = (parseInt(carritos[carritos.length - 1].id) + 1);
+            }else{
+                this.id = 1;
+            }
         }
+        
     }
 
 
@@ -32,6 +40,7 @@ class CarritoFirebase extends ContenedorFirebase{
                 productos:[]
             };
             let documento = await this.coleccion.doc(`${this.id}`).create(carro);
+            this.verId();
             return documento;
         }catch(err){
             return err;
@@ -40,16 +49,39 @@ class CarritoFirebase extends ContenedorFirebase{
 
     async guardarItem(objeto, id){
         try{
-            let carritos = await this.traerContenido();           
-            let objetos = carritos[0].productos;
-            console.log(objetos)
-            objetos.push(objeto);
-            await this.coleccion.doc(`${id}`).update({productos: [objetos]})
+            let carro = await this.traerItem(id);
+            let productos = carro.productos;
+            productos.push(objeto);
+            await this.coleccion.doc(id).set({
+                productos
+            },{merge:true})
             return (`Producto '${objeto.nombre}' agregado con exito al carrito`);
 
         }catch(err){
             return err
         }
+    }
+
+    
+    async borrarItemCarrito(itemId, id){
+        try{
+            let carrito = await this.traerItem(id);
+            let productos = carrito.productos;
+            let index = productos.findIndex(elem => elem.id === itemId )
+            productos.splice(index,1);
+            await this.coleccion.doc(id).set({
+                productos
+            })
+            return (`Producto '${objeto.nombre}' eliminado del carrito`);
+
+        }catch(err){
+            return err
+        }
+    }
+
+    async borrarItem(id){
+        super.borrarItem(id);
+        this.id--;
     }
 }
 

@@ -10,11 +10,11 @@ const { CarritoMongo } = require("../daos/carritos/CarritoMongo");
 // const carritoContenedor = new Carrito("./src/data/carritos.json");
 // const productosContenedor = new Productos("./src/data/productos.json");
 
-// const carritoContenedor = new CarritoFirebase();
-// const productosContenedor = new ProductosFirebase();
+const carritoContenedor = new CarritoFirebase();
+const productosContenedor = new ProductosFirebase();
 
-const productosContenedor = new ProductosMongo();
-const carritoContenedor = new CarritoMongo();
+// const productosContenedor = new ProductosMongo();
+// const carritoContenedor = new CarritoMongo();
 
 carritoRouter.post("/",(req,res)=>{
     let carro = carritoContenedor.guardar();
@@ -42,16 +42,16 @@ carritoRouter.get("/:id/productos", async (req,res)=>{
     }
 });
 
-carritoRouter.post("/:id/productos/:id_prod", (req,res)=>{
+carritoRouter.post("/:id/productos/:id_prod", async (req,res)=>{
     let id = req.params.id;
     let productoId = req.params.id_prod;
-    let carrito = carritoContenedor.traerItem(id);
+    let carrito = await carritoContenedor.traerItem(id);
     if(carrito != "No existe"){
-        let producto = productosContenedor.traerItem(productoId);
+        let producto = await productosContenedor.traerItem(productoId);
         if(producto == "No existe"){
             res.json({result: "No existe el producto con ese id"});
         }else{
-            let resultado = carritoContenedor.guardarItem(producto, id);
+            let resultado = await carritoContenedor.guardarItem(producto, id);
             res.json({resultado});
 
         }

@@ -40,7 +40,7 @@ function cambioFetch(url, id = false, idC = 1) {
                                 <td>${item.nombre}</td>
                                 <td>${item.descripcion}</td>
                                 <td>${item.precio} $</td>
-                                <td><button class="borrar-del-carrito" id="${item.id}">Borrar</button></td>            
+                                <td><button class="borrar-del-carrito" id="${(item.id? item.id: item._id)}">Borrar</button></td>            
                             </tr>
                         `
                     }

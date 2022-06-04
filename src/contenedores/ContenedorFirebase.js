@@ -15,7 +15,6 @@ class ContenedorFirebase {
     
     async traerContenido(){
         let todo = await this.coleccion.get();
-        
         let mostrar = todo.docs.map(doc => ({
             id:doc.id,
             ...doc.data()
